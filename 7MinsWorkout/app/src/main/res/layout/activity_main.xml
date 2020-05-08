@@ -8,22 +8,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:gravity="center">
+        android:padding="@dimen/main_screen_layout_padding"
+        android:gravity="center_horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/main_screen_image_height"
+            android:contentDescription="@string/image"
             android:src="@drawable/img_main_page"/>
+        
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="@dimen/start_button_size"
+            android:layout_height="@dimen/start_button_size"
+            android:background="@drawable/item_color_accent_border_ripple_background"
+            android:layout_marginTop="@dimen/start_button_margin_top"
+            android:gravity="center">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Test"
-            android:gravity="center"
-            android:textSize="20sp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_button"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/start_button_label_textsize"/>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
