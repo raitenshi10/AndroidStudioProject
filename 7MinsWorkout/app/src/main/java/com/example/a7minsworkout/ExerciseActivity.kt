@@ -14,6 +14,7 @@ class ExerciseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
+        // Setting Toolbar
         setSupportActionBar(toolbar_exercise)
 
         val actionbar = supportActionBar
