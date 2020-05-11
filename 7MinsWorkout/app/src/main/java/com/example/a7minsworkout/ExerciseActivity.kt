@@ -31,8 +31,6 @@ class ExerciseActivity : AppCompatActivity() {
         }
 
         setupRestView()
-
-        ll_exercise_view.visibility = View.GONE
     }
 
     override fun onDestroy() {
@@ -43,8 +41,9 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
-
-
+    /** The methods all written here
+     *
+     */
 
     private fun setRestProgressBar() {
         progress_bar.progress = restProgress
@@ -54,23 +53,14 @@ class ExerciseActivity : AppCompatActivity() {
                 progress_bar.progress = 10-restProgress
                 tv_timer.text = (10-restProgress).toString()
             }
-
             override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity, "Here we go", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this@ExerciseActivity,
+                    "Here we go", Toast.LENGTH_SHORT)
                     .show()
-                ll_rest_view.visibility = View.GONE
-                ll_exercise_view.visibility = View.VISIBLE
-                setExerciseProgressBar()
+                setupExerciseView()
             }
         }.start()
-    }
-
-    private fun setupRestView() {
-        if(restTime != null) {
-            restTime!!.cancel()
-            restProgress = 0
-        }
-        setRestProgressBar()
     }
 
     private fun setExerciseProgressBar() {
@@ -81,14 +71,36 @@ class ExerciseActivity : AppCompatActivity() {
                 progress_bar_exercise.progress = 30-exerciseProgress
                 tv_exercise.text = (30-exerciseProgress).toString()
             }
-
             override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity, "Exercise is finished", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    this@ExerciseActivity,
+                    "Next Exercise", Toast.LENGTH_LONG)
                     .show()
-                setRestProgressBar()
-                ll_rest_view.visibility = View.VISIBLE
-                ll_exercise_view.visibility = View.GONE
             }
         }.start()
+    }
+
+    // Setting up the view for the countdown before going to the exercise activity
+    private fun setupRestView() {
+        ll_rest_view.visibility = View.VISIBLE
+        ll_exercise_view.visibility = View.GONE
+
+        if(restTime != null) {
+            restTime!!.cancel()
+            restProgress = 0
+        }
+        setRestProgressBar()
+    }
+
+    // Setting up the view for the countdown in exercise activity
+    private fun setupExerciseView() {
+        ll_rest_view.visibility = View.GONE
+        ll_exercise_view.visibility = View.VISIBLE
+
+        if(exerciseTime != null) {
+            exerciseTime!!.cancel()
+            exerciseProgress = 0
+        }
+        setExerciseProgressBar()
     }
 }
