@@ -3,13 +3,16 @@ package com.example.a7minsworkout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_exercise.*
 
 class ExerciseActivity : AppCompatActivity() {
 
-    private var restTime: CountDownTimer?? = null
+    private var restTime: CountDownTimer? = null
     private var restProgress = 0
+    private var exerciseTime: CountDownTimer? = null
+    private var exerciseProgress = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +24,15 @@ class ExerciseActivity : AppCompatActivity() {
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true)
         }
+
+        // Setting behavior of the toolbar back button
         toolbar_exercise.setNavigationOnClickListener {
             onBackPressed()
         }
 
         setupRestView()
+
+        ll_exercise_view.visibility = View.GONE
     }
 
     override fun onDestroy() {
@@ -36,18 +43,24 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
+
+
+
     private fun setRestProgressBar() {
         progress_bar.progress = restProgress
         restTime = object : CountDownTimer(10000, 1000) {
-            override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity, "Here we go", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
             override fun onTick(millisUntilFinished: Long) {
                 restProgress ++
                 progress_bar.progress = 10-restProgress
                 tv_timer.text = (10-restProgress).toString()
+            }
+
+            override fun onFinish() {
+                Toast.makeText(this@ExerciseActivity, "Here we go", Toast.LENGTH_SHORT)
+                    .show()
+                ll_rest_view.visibility = View.GONE
+                ll_exercise_view.visibility = View.VISIBLE
+                setExerciseProgressBar()
             }
         }.start()
     }
@@ -58,5 +71,24 @@ class ExerciseActivity : AppCompatActivity() {
             restProgress = 0
         }
         setRestProgressBar()
+    }
+
+    private fun setExerciseProgressBar() {
+        progress_bar_exercise.progress = exerciseProgress
+        exerciseTime = object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                exerciseProgress ++
+                progress_bar_exercise.progress = 30-exerciseProgress
+                tv_exercise.text = (30-exerciseProgress).toString()
+            }
+
+            override fun onFinish() {
+                Toast.makeText(this@ExerciseActivity, "Exercise is finished", Toast.LENGTH_LONG)
+                    .show()
+                setRestProgressBar()
+                ll_rest_view.visibility = View.VISIBLE
+                ll_exercise_view.visibility = View.GONE
+            }
+        }.start()
     }
 }
