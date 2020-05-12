@@ -13,6 +13,8 @@ class ExerciseActivity : AppCompatActivity() {
     private var restProgress = 0
     private var exerciseTime: CountDownTimer? = null
     private var exerciseProgress = 0
+    private var exerciseList : ArrayList<ExerciseModels>? = null
+    private var currentExercisePosition = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,8 @@ class ExerciseActivity : AppCompatActivity() {
         }
 
         setupRestView()
+
+        exerciseList = Constant.defaultExerciseList()
     }
 
     override fun onDestroy() {
@@ -41,28 +45,25 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
-    /** The methods all written here
+    /** The methods all are written here
      *
      */
-
+    // A Function to seting up the countdown progress bar
     private fun setRestProgressBar() {
         progress_bar.progress = restProgress
-        restTime = object : CountDownTimer(10000, 1000) {
+        restTime = object : CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress ++
-                progress_bar.progress = 10-restProgress
-                tv_timer.text = (10-restProgress).toString()
+                progress_bar.progress = 5-restProgress
+                tv_timer.text = (5-restProgress).toString()
             }
             override fun onFinish() {
-                Toast.makeText(
-                    this@ExerciseActivity,
-                    "Here we go", Toast.LENGTH_SHORT)
-                    .show()
+                currentExercisePosition ++
                 setupExerciseView()
             }
         }.start()
     }
-
+    // A Function to setting the countdown of exercise progress bar
     private fun setExerciseProgressBar() {
         progress_bar_exercise.progress = exerciseProgress
         exerciseTime = object : CountDownTimer(30000, 1000) {
@@ -72,10 +73,12 @@ class ExerciseActivity : AppCompatActivity() {
                 tv_exercise.text = (30-exerciseProgress).toString()
             }
             override fun onFinish() {
-                Toast.makeText(
-                    this@ExerciseActivity,
-                    "Next Exercise", Toast.LENGTH_LONG)
-                    .show()
+                if (currentExercisePosition < exerciseList!!.size - 1) {
+                    setupRestView()
+                }else {
+                    Toast.makeText(this@ExerciseActivity, "The exercise is Finished", Toast.LENGTH_LONG)
+                        .show()
+                }
             }
         }.start()
     }
@@ -102,5 +105,8 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseProgress = 0
         }
         setExerciseProgressBar()
+        iv_exercise.setImageResource(exerciseList!![currentExercisePosition].image)
+        tv_exercise_name.text = exerciseList!![currentExercisePosition].name
+        tv_upcoming_exercise.text = exerciseList!![currentExercisePosition+1].name
     }
 }

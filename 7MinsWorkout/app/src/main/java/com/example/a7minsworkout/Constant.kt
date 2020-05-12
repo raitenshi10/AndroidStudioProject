@@ -7,7 +7,7 @@ class Constant {
 
             val jumpingJacks = ExerciseModels(
                 1,
-                "Jumping Jacks",
+                "JUMPING JACK",
                 R.drawable.ic_jumping_jacks,
                 false,
                 false
@@ -16,7 +16,7 @@ class Constant {
 
             val squat = ExerciseModels(
                 2,
-                "Squat",
+                "SQUAT",
                 R.drawable.ic_squat,
                 false,
                 false
@@ -25,7 +25,7 @@ class Constant {
 
             val abdominalCrunch = ExerciseModels(
                 3,
-                "Abdominal Crunch",
+                "ABDOMINAL CRUNCH",
                 R.drawable.ic_abdominal_crunch,
                 false,
                 false
@@ -34,7 +34,7 @@ class Constant {
 
             val highKneesRunning = ExerciseModels(
                 4,
-                "High Knees Running in Place",
+                "HIGH KNEES RUNNING IN PLACE",
                 R.drawable.ic_high_knees_running_in_place,
                 false,
                 false
@@ -43,7 +43,7 @@ class Constant {
 
             val lung = ExerciseModels(
                 5,
-                "Lunge",
+                "LUNGE",
                 R.drawable.ic_lunge,
                 false,
                 false

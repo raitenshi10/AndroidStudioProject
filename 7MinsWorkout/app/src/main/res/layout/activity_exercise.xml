@@ -68,6 +68,24 @@
                     tools:text="10"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UPCOMING EXERCISE"
+            android:paddingTop="20dp"
+            android:textColor="@color/colorHighlighted"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_upcoming_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JUMPING JACK"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"/>
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -79,10 +97,20 @@
         android:orientation="vertical"
         android:visibility="gone">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_jumping_jacks"/>
+
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_exercise_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="EXERCISE IS STARTED"
+            android:text="EXERCISE NAME"
             android:textColor="@color/colorAccent"
             android:textSize="22sp"
             android:textStyle="bold"/>
@@ -120,7 +148,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="25sp"
                     android:textStyle="bold"
-                    tools:text="10"/>
+                    tools:text="60"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
