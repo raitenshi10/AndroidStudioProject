@@ -1,20 +1,31 @@
 package com.example.a7minsworkout
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_exercise.*
+import org.intellij.lang.annotations.Language
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExerciseActivity : AppCompatActivity() {
+class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
 
+    // Timer property
     private var restTime: CountDownTimer? = null
     private var restProgress = 0
+    // Exercise property
     private var exerciseTime: CountDownTimer? = null
     private var exerciseProgress = 0
     private var exerciseList : ArrayList<ExerciseModels>? = null
     private var currentExercisePosition = -1
+
+    private var tts: TextToSpeech? = null
+    private var player: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +43,7 @@ class ExerciseActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        tts = TextToSpeech(this, this)
         setupRestView()
 
         exerciseList = Constant.defaultExerciseList()
@@ -43,12 +55,26 @@ class ExerciseActivity : AppCompatActivity() {
             restTime!!.cancel()
             restProgress = 0
         }
+
+        if (exerciseTime != null) {
+            exerciseTime!!.cancel()
+            exerciseProgress = 0
+        }
+
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+
+        if (player != null) {
+            player!!.stop()
+        }
     }
 
     /** The methods all are written here
      *
      */
-    // A Function to seting up the countdown progress bar
+    // A Function to setting up the countdown progress bar
     private fun setRestProgressBar() {
         progress_bar.progress = restProgress
         restTime = object : CountDownTimer(5000, 1000) {
@@ -85,6 +111,11 @@ class ExerciseActivity : AppCompatActivity() {
 
     // Setting up the view for the countdown before going to the exercise activity
     private fun setupRestView() {
+
+        player = MediaPlayer.create(applicationContext, R.raw.press_start)
+        player!!.isLooping = false
+        player!!.start()
+
         ll_rest_view.visibility = View.VISIBLE
         ll_exercise_view.visibility = View.GONE
 
@@ -105,8 +136,24 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseProgress = 0
         }
         setExerciseProgressBar()
+        speakOut(exerciseList!![currentExercisePosition].name)
         iv_exercise.setImageResource(exerciseList!![currentExercisePosition].image)
         tv_exercise_name.text = exerciseList!![currentExercisePosition].name
         tv_upcoming_exercise.text = exerciseList!![currentExercisePosition+1].name
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts!!.setLanguage(Locale.US)
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "language is missing or not supported")
+            }
+        }else {
+            Log.e("TTS", "Initialization Failed")
+        }
+    }
+
+    private fun speakOut(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "" )
     }
 }
