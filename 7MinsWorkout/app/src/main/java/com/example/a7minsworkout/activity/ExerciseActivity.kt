@@ -1,5 +1,6 @@
-package com.example.a7minsworkout
+package com.example.a7minsworkout.activity
 
+import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,13 +8,14 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a7minsworkout.models.Constant
+import com.example.a7minsworkout.models.ExerciseModels
+import com.example.a7minsworkout.adapter.ExerciseStatusAdapter
+import com.example.a7minsworkout.R
 import kotlinx.android.synthetic.main.activity_exercise.*
-import org.intellij.lang.annotations.Language
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,10 +29,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
     private var exerciseProgress = 0
     private var exerciseList : ArrayList<ExerciseModels>? = null
     private var currentExercisePosition = -1
-
+    // Text To Speech
     private var tts: TextToSpeech? = null
     private var player: MediaPlayer? = null
-
+    // RecyclerView
     private var exerciseAdapter: ExerciseStatusAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,10 +41,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         // Setting Toolbar
         setSupportActionBar(toolbar_exercise)
 
-        val actionbar = supportActionBar
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Setting behavior of the toolbar back button
         toolbar_exercise.setNavigationOnClickListener {
@@ -51,8 +50,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
 
         tts = TextToSpeech(this, this)
         setupRestView()
-
-        exerciseList = Constant.defaultExerciseList()
+        exerciseList =
+            Constant.defaultExerciseList()
         setupExerciseStatusRecyclerView()
     }
 
@@ -91,7 +90,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
                 tv_timer.text = (5-restProgress).toString()
             }
             override fun onFinish() {
-                currentExercisePosition ++
+                currentExercisePosition++
+                exerciseList!![currentExercisePosition].isSelected = true
+                exerciseAdapter!!.notifyDataSetChanged()
                 setupExerciseView()
             }
         }.start()
@@ -106,11 +107,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
                 tv_exercise.text = (30-exerciseProgress).toString()
             }
             override fun onFinish() {
-                if (currentExercisePosition < exerciseList!!.size - 1) {
-                    setupRestView()
-                }else {
-                    Toast.makeText(this@ExerciseActivity, "The exercise is Finished", Toast.LENGTH_LONG)
-                        .show()
+                if (currentExercisePosition < exerciseList!!.size + 1) {
+                    exerciseList!![currentExercisePosition].isSelected = false
+                    exerciseList!![currentExercisePosition].isCompleted = true
+                    exerciseAdapter!!.notifyDataSetChanged()
+                    startActivity(Intent(this@ExerciseActivity, FinishActivity::class.java ))
                 }
             }
         }.start()
@@ -118,8 +119,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
 
     // Setting up the view for the countdown before going to the exercise activity
     private fun setupRestView() {
-
-        player = MediaPlayer.create(applicationContext, R.raw.press_start)
+        player = MediaPlayer.create(applicationContext,
+            R.raw.press_start
+        )
         player!!.isLooping = false
         player!!.start()
 
@@ -149,6 +151,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         tv_upcoming_exercise.text = exerciseList!![currentExercisePosition+1].name
     }
 
+    // Initializing text to speech
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             val result = tts!!.setLanguage(Locale.US)
@@ -164,9 +167,15 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "" )
     }
 
+    // Setting up the recyclerview
     private fun setupExerciseStatusRecyclerView() {
         rvExerciseStatus.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-        exerciseAdapter = ExerciseStatusAdapter(exerciseList!!, this)
+        exerciseAdapter =
+            ExerciseStatusAdapter(
+                exerciseList!!,
+                this
+            )
         rvExerciseStatus.adapter = exerciseAdapter
     }
 }
+
