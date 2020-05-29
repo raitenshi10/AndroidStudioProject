@@ -24,14 +24,19 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
     // Timer property
     private var restTime: CountDownTimer? = null
     private var restProgress = 0
+    private var restDuration: Long = 2
+
     // Exercise property
     private var exerciseTime: CountDownTimer? = null
     private var exerciseProgress = 0
     private var exerciseList : ArrayList<ExerciseModels>? = null
     private var currentExercisePosition = -1
+    private var exerciseDuration: Long = 2
+
     // Text To Speech
     private var tts: TextToSpeech? = null
     private var player: MediaPlayer? = null
+
     // RecyclerView
     private var exerciseAdapter: ExerciseStatusAdapter? = null
 
@@ -40,7 +45,6 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         setContentView(R.layout.activity_exercise)
         // Setting Toolbar
         setSupportActionBar(toolbar_exercise)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Setting behavior of the toolbar back button
@@ -49,9 +53,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         }
 
         tts = TextToSpeech(this, this)
+        exerciseList = ExerciseModels.getData()
+
         setupRestView()
-        exerciseList =
-            Constant.defaultExerciseList()
         setupExerciseStatusRecyclerView()
     }
 
@@ -83,11 +87,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
     // A Function to setting up the countdown progress bar
     private fun setRestProgressBar() {
         progress_bar.progress = restProgress
-        restTime = object : CountDownTimer(5000, 1000) {
+        restTime = object : CountDownTimer(restDuration*1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress ++
-                progress_bar.progress = 5-restProgress
-                tv_timer.text = (5-restProgress).toString()
+                progress_bar.progress = (restDuration-restProgress).toInt()
+                tv_timer.text = (restDuration-restProgress).toString()
             }
             override fun onFinish() {
                 currentExercisePosition++
@@ -100,18 +104,22 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
     // A Function to setting the countdown of exercise progress bar
     private fun setExerciseProgressBar() {
         progress_bar_exercise.progress = exerciseProgress
-        exerciseTime = object : CountDownTimer(30000, 1000) {
+        exerciseTime = object : CountDownTimer(exerciseDuration*1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 exerciseProgress ++
-                progress_bar_exercise.progress = 30-exerciseProgress
-                tv_exercise.text = (30-exerciseProgress).toString()
+                progress_bar_exercise.progress = (exerciseDuration-exerciseProgress).toInt()
+                tv_exercise.text = (exerciseDuration-exerciseProgress).toString()
             }
             override fun onFinish() {
-                if (currentExercisePosition < exerciseList!!.size + 1) {
-                    exerciseList!![currentExercisePosition].isSelected = false
-                    exerciseList!![currentExercisePosition].isCompleted = true
-                    exerciseAdapter!!.notifyDataSetChanged()
-                    startActivity(Intent(this@ExerciseActivity, FinishActivity::class.java ))
+                exerciseList!![currentExercisePosition].isSelected = false
+                exerciseList!![currentExercisePosition].isCompleted = true
+                exerciseAdapter!!.notifyDataSetChanged()
+
+                if (currentExercisePosition < 1) {
+                    Log.e("Index", "$currentExercisePosition")
+                    setupRestView()
+                } else {
+                    Toast.makeText(this@ExerciseActivity, "Finish", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()

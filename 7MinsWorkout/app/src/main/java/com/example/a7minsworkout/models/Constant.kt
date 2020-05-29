@@ -57,7 +57,7 @@ class Constant {
             val plank = ExerciseModels(
                 6,
                 "PLANK",
-                R.drawable.ic_lunge,
+                R.drawable.ic_plank,
                 false,
                 false
             )
@@ -66,7 +66,7 @@ class Constant {
             val push_up = ExerciseModels(
                 7,
                 "PUSH UP",
-                R.drawable.ic_lunge,
+                R.drawable.ic_push_up,
                 false,
                 false
             )
@@ -76,7 +76,7 @@ class Constant {
                 ExerciseModels(
                     8,
                     "PUSH UP AND ROTATION",
-                    R.drawable.ic_lunge,
+                    R.drawable.ic_push_up_and_rotation,
                     false,
                     false
                 )
@@ -85,7 +85,7 @@ class Constant {
             val side_plank = ExerciseModels(
                 9,
                 "SIDE PLANK",
-                R.drawable.ic_lunge,
+                R.drawable.ic_side_plank,
                 false,
                 false
             )
@@ -95,30 +95,11 @@ class Constant {
                 ExerciseModels(
                     10,
                     "STEP UP ONTO CHAIR",
-                    R.drawable.ic_lunge,
+                    R.drawable.ic_step_up_onto_chair,
                     false,
                     false
                 )
             exerciseList.add(step_up_onto_chair)
-
-            val triceps_dip_on_chair =
-                ExerciseModels(
-                    11,
-                    "TRICEPS DIP ON CHAIR",
-                    R.drawable.ic_lunge,
-                    false,
-                    false
-                )
-            exerciseList.add(triceps_dip_on_chair)
-
-            val wall_sit = ExerciseModels(
-                12,
-                "WALL SIT",
-                R.drawable.ic_lunge,
-                false,
-                false
-            )
-            exerciseList.add(wall_sit)
             return exerciseList
         }
     }

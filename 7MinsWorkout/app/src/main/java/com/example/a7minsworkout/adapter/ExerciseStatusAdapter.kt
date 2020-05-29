@@ -1,6 +1,6 @@
 package com.example.a7minsworkout.adapter
-
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +20,7 @@ class ExerciseStatusAdapter(private val items: ArrayList<ExerciseModels>, privat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(
+            LayoutInflater.from(context).inflate(
                 R.layout.item_exercise_status,
                 parent,
                 false
@@ -40,6 +40,9 @@ class ExerciseStatusAdapter(private val items: ArrayList<ExerciseModels>, privat
                 R.drawable.item_circular_color_accent_background
             )
             holder.tvItem.setTextColor(Color.parseColor("#C4C4C4"))
+        }else {
+            holder.tvItem.background = ContextCompat.getDrawable(context, R.drawable.item_circular_color_grey_background)
+            holder.tvItem.setTextColor(Color.parseColor("#212121"))
         }
     }
 
