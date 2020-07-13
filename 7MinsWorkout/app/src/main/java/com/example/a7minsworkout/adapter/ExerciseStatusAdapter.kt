@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.item_exercise_status.view.*
 class ExerciseStatusAdapter(private val items: ArrayList<ExerciseModels>, private val context: Context): RecyclerView.Adapter<ExerciseStatusAdapter.ViewHolder>() {
 
     class ViewHolder(v: View): RecyclerView.ViewHolder(v) {
-        val tvItem = v.tvItem
-
+        val tvItem = v.tvItem!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

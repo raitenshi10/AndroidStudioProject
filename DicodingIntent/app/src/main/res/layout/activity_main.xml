@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnIntent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Intent"/>
+
+    <Button
+        android:id="@+id/btnExplicitIntent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Explicit Intent"/>
+
+    <Button
+        android:id="@+id/btnExplicitIntentWithParcelable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Explicit Intent With Parcelable"/>
+
+
+    <Button
+        android:id="@+id/btnImplicitIntent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Implicit Intent"/>
+
+    <Button
+        android:id="@+id/btnIntentWithResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Intent With Activity Result"/>
+
+    <TextView
+        android:id="@+id/tvHasil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:text="Hasil"/>
+
+
+</LinearLayout>

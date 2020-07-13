@@ -1,0 +1,2 @@
+rootProject.name='DicodingAndroidFundamental'
+include ':app'

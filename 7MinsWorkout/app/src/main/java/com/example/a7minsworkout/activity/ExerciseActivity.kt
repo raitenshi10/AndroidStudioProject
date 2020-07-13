@@ -1,6 +1,5 @@
 package com.example.a7minsworkout.activity
 
-import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a7minsworkout.models.Constant
 import com.example.a7minsworkout.models.ExerciseModels
 import com.example.a7minsworkout.adapter.ExerciseStatusAdapter
 import com.example.a7minsworkout.R
@@ -46,7 +44,6 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         // Setting Toolbar
         setSupportActionBar(toolbar_exercise)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         // Setting behavior of the toolbar back button
         toolbar_exercise.setNavigationOnClickListener {
             onBackPressed()
@@ -54,7 +51,6 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
 
         tts = TextToSpeech(this, this)
         exerciseList = ExerciseModels.getData()
-
         setupRestView()
         setupExerciseStatusRecyclerView()
     }
@@ -95,12 +91,14 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
             }
             override fun onFinish() {
                 currentExercisePosition++
+
                 exerciseList!![currentExercisePosition].isSelected = true
                 exerciseAdapter!!.notifyDataSetChanged()
                 setupExerciseView()
             }
         }.start()
     }
+
     // A Function to setting the countdown of exercise progress bar
     private fun setExerciseProgressBar() {
         progress_bar_exercise.progress = exerciseProgress
@@ -115,7 +113,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
                 exerciseList!![currentExercisePosition].isCompleted = true
                 exerciseAdapter!!.notifyDataSetChanged()
 
-                if (currentExercisePosition < 1) {
+                if (currentExercisePosition < exerciseList!!.size + 1) {
                     Log.e("Index", "$currentExercisePosition")
                     setupRestView()
                 } else {

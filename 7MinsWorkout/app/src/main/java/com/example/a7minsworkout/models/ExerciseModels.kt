@@ -22,7 +22,10 @@ data class ExerciseModels (
             )
             exerciseList.add(jumpingJack)
 
-            val abdominalCrunch = ExerciseModels(2, "Abdominal Crunch", R.drawable.ic_abdominal_crunch, isCompleted = false, isSelected = false)
+            val abdominalCrunch = ExerciseModels(2, "Abdominal Crunch", R.drawable.ic_abdominal_crunch,
+                isCompleted = false,
+                isSelected = false
+            )
             exerciseList.add(abdominalCrunch)
             return exerciseList
     }
