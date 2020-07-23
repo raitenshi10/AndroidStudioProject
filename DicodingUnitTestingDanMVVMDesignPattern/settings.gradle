@@ -1,0 +1,2 @@
+rootProject.name='Dicoding Unit Testing Dan MVVM DesignPattern'
+include ':app'

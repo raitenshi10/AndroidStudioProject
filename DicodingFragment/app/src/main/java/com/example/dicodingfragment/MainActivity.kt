@@ -2,26 +2,24 @@ package com.example.dicodingfragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import com.example.dicodingfragment.fragment.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
-    var mFragmentManager = supportFragmentManager
-    var mHomeFragment = HomeFragment()
-    var fragment = mFragmentManager.findFragmentByTag(HomeFragment::class.java.simpleName)
+    private val mFragmentManager = supportFragmentManager
+    private val mHomeFragment = HomeFragment()
+    private val fragment = mFragmentManager.findFragmentByTag(HomeFragment::class.java.simpleName)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (fragment !is HomeFragment) {
-            Log.d("DicodingFragment", "Fragment Name: ${HomeFragment::class.java.simpleName}")
-            mFragmentManager
-                .beginTransaction()
-                .add(R.id.frameContainer, mHomeFragment, HomeFragment::class.java.simpleName)
-                .commit()
+        // Checking if this page isNot HomeFragment()
+        if (fragment !is HomeFragment ) {
+            mFragmentManager.beginTransaction().apply {
+                add(R.id.frameContainer, mHomeFragment, HomeFragment::class.java.simpleName)
+                commit()
+            }
         }
     }
 }

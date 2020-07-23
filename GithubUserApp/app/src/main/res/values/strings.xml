@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GithubUserApp</string>
+    <string name="user_company">Company: $user.details</string>
+</resources>
